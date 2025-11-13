@@ -171,5 +171,5 @@ MIT License
 
 ## 📞 联系方式
 
-- 项目地址: https://github.com/2274168514/javascript-online-editor
+- 项目地址: https://github.com/2274168514/js-editor
 - 开发者: 孙光宇 (China University of Petroleum (East China))
