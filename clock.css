@@ -1,0 +1,378 @@
+/* 时钟组件专用样式 - 不影响其他元素 */
+.clock-widget * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.clock-widget {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a1a2e;
+    color: #eee;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.5s ease;
+}
+
+.clock-widget.light-theme {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.clock-widget .clock-container {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.clock-widget .clock-wrapper {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.clock-widget.light-theme .clock-wrapper {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.clock-widget .clock-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.clock-widget .clock-header h1 {
+    font-size: 2.5em;
+    font-weight: 300;
+    margin-bottom: 10px;
+    background: linear-gradient(45deg, #00d4ff, #090979, #00d4ff);
+    background-size: 200% 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 3s ease infinite;
+}
+
+.clock-widget.light-theme .clock-header h1 {
+    background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+    background-size: 200% 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.clock-widget .clock-header p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1em;
+    transition: color 0.3s ease;
+}
+
+.clock-widget.light-theme .clock-header p {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.clock-widget .clock-display {
+    margin-bottom: 40px;
+}
+
+.clock-widget .time-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 10px;
+}
+
+.clock-widget .time-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+}
+
+.clock-widget .time-digit {
+    font-size: 4em;
+    font-weight: 200;
+    font-family: 'Courier New', monospace;
+    color: #00d4ff;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    transition: all 0.3s ease;
+    animation: pulse 2s ease infinite;
+}
+
+.clock-widget.light-theme .time-digit {
+    color: #667eea;
+    text-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+.clock-widget .time-label {
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+.clock-widget.light-theme .time-label {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.clock-widget .time-separator {
+    font-size: 3em;
+    font-weight: 200;
+    color: #00d4ff;
+    margin: 0 5px;
+    animation: blink 1s ease infinite;
+}
+
+.clock-widget.light-theme .time-separator {
+    color: #667eea;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.clock-widget .date-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.clock-widget .date-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.clock-widget.light-theme .date-block {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.clock-widget .date-block:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.clock-widget.light-theme .date-block:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.clock-widget .date-digit {
+    font-size: 1.5em;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 5px;
+    transition: color 0.3s ease;
+}
+
+.clock-widget.light-theme .date-digit {
+    color: #333;
+}
+
+.clock-widget .date-label {
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+.clock-widget.light-theme .date-label {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.clock-widget .clock-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.clock-widget .control-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.clock-widget.light-theme .control-btn {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+.clock-widget .control-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.clock-widget.light-theme .control-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.clock-widget .control-btn.active {
+    background: #00d4ff;
+    border-color: #00d4ff;
+    color: #1a1a2e;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+}
+
+.clock-widget.light-theme .control-btn.active {
+    background: #667eea;
+    border-color: #667eea;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+.clock-widget .clock-status {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.clock-widget .status-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.clock-widget.light-theme .status-item {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.clock-widget .status-label {
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.6);
+    transition: color 0.3s ease;
+}
+
+.clock-widget.light-theme .status-label {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.clock-widget .status-value {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #00d4ff;
+    transition: color 0.3s ease;
+}
+
+.clock-widget.light-theme .status-value {
+    color: #667eea;
+}
+
+/* 毫秒显示样式 */
+.clock-widget .milliseconds {
+    font-size: 1.5em;
+    color: rgba(255, 255, 255, 0.5);
+    margin-left: 10px;
+    font-family: 'Courier New', monospace;
+    transition: color 0.3s ease;
+}
+
+.clock-widget.light-theme .milliseconds {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .clock-widget .clock-wrapper {
+        padding: 20px;
+    }
+
+    .clock-widget .clock-header h1 {
+        font-size: 2em;
+    }
+
+    .clock-widget .time-digit {
+        font-size: 3em;
+    }
+
+    .clock-widget .time-block {
+        min-width: 80px;
+    }
+
+    .clock-widget .date-section {
+        gap: 10px;
+    }
+
+    .clock-widget .date-block {
+        min-width: 60px;
+        padding: 8px;
+    }
+
+    .clock-widget .clock-controls {
+        gap: 8px;
+    }
+
+    .clock-widget .control-btn {
+        padding: 8px 16px;
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    .clock-widget .time-section {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .clock-widget .time-separator {
+        transform: rotate(90deg);
+        margin: 10px 0;
+    }
+
+    .clock-widget .date-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .clock-widget .clock-status {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

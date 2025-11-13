@@ -1,0 +1,2051 @@
+﻿/* 鍏ㄥ眬鏍峰紡閲嶇疆鍜屽熀纭€璁剧疆 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: #F0F0F0;
+    color: #333333;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 澶撮儴宸ュ叿鏍忔牱寮?*/
+.header {
+    background-color: #252526;
+    height: auto;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #3C3C3C;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+
+.header-left h1 {
+    color: #D4D4D4;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.header-left .subtitle {
+    color: #BDC3C7;
+    font-size: 10px;
+    margin-left: 6px;
+    display: none; /* 闅愯棌鍓爣棰?*/
+}
+
+.header-right i {
+    color: #FFFFFF;
+}
+
+.header-right {
+    display: flex;
+    gap: 6px;
+}
+
+/* 鎸夐挳鏍峰紡 */
+.btn {
+    padding: 5px 10px;
+    border: 1px solid #3C3C3C;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #D4D4D4;
+    background-color: #2D2D30;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    border-color: #0E639C;
+}
+
+.btn-primary {
+    background-color: #0E639C;
+    color: white;
+    border-color: #0E639C;
+}
+
+.btn-primary:hover {
+    background-color: #007ACC;
+    border-color: #007ACC;
+}
+
+.btn-secondary {
+    background-color: #D4D4D4;
+    color: #D4D4D4;
+    border-color: #DDD;
+}
+
+.btn-secondary:hover {
+    background-color: #2D3142;
+    border-color: #0E639C;
+}
+
+.btn-success {
+    background-color: #1BB869;
+    color: white;
+    border-color: #1BB869;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+
+.btn-info {
+    background-color: #0B1A24;
+    color: white;
+    border-color: #4FC1FF;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #138496;
+}
+
+.btn-warning {
+    background-color: #FFC107;
+    color: #212529;
+    border-color: #FFC107;
+}
+
+.btn-warning:hover {
+    background-color: #E0A800;
+    border-color: #D39E00;
+}
+
+.btn-small {
+    padding: 4px 8px;
+    font-size: 11px;
+    background-color: #F8F9FA;
+    color: #D4D4D4;
+    border: 1px solid #3C3C3C;
+}
+
+.btn-small:hover {
+    background-color: #E9ECEF;
+    border-color: #0E639C;
+}
+
+/* 涓诲唴瀹瑰尯鍩?*/
+.main-content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    background: #1E1E1E;
+}
+
+/* 缂栬緫鍣ㄥ尯鍩?*/
+.editor-section {
+    width: 50%;
+    height: 100%;
+    background-color: #252526;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #3C3C3C;
+    overflow: hidden; /* 纭繚鍐呭涓嶄細婧㈠嚭 */
+}
+
+/* 鏂囦欢澶瑰鑸爮 */
+.folder-nav {
+    background-color: #252526;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #3C3C3C;
+    height: 42px; /* 鍥哄畾楂樺害锛屼究浜庤绠?*/
+    flex-shrink: 0;
+    padding: 0 8px;
+}
+
+/* 宸︿晶缂栬緫鍣ㄦ寜閽尯鍩?*/
+.folder-nav-left {
+    display: flex;
+    align-items: center;
+}
+
+/* 鍙充晶宸ュ叿鎸夐挳鍖哄煙 */
+.folder-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2px; /* 宸ュ叿鎸夐挳涔嬮棿鐨勫皬闂磋窛 */
+}
+
+.folder-btn {
+    padding: 10px 12px;
+    background-color: #252526;
+    border: none;
+    color: #D4D4D4; /* 缁熶竴涓烘洿娓呮櫚鐨処DE鏂囨湰鑹?*/
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    border-radius: 0;
+    min-width: 0;
+}
+
+/* 宸︿晶缂栬緫鍣ㄦ寜閽殑鍙宠竟妗?*/
+.folder-nav-left .folder-btn {
+    border-right: 1px solid #3C3C3C;
+}
+
+.folder-nav-left .folder-btn:last-child {
+    border-right: none;
+}
+
+/* 鍙充晶宸ュ叿鎸夐挳鐨勬牱寮?*/
+.folder-nav-right .folder-btn {
+    padding: 8px 10px;
+    font-size: 11px;
+    min-width: auto;
+    flex-shrink: 0;
+}
+
+.folder-btn:hover {
+    color: #FFFFFF;
+    background-color: #2D3142; /* 缁熶竴鎮仠搴曡壊 */
+}
+
+.folder-btn.active {
+    color: #FFFFFF;
+    background-color: #2D3142;
+    border-bottom: 2px solid #007acc; /* 缁熶竴寮鸿皟鑹?*/
+}
+
+/* 宸ュ叿鎸夐挳鏍峰紡 */
+.folder-btn.tool-btn {
+    background-color: #252526; /* 涓庡乏渚у鑸粺涓€ */
+    border-left: 1px solid #3E4452;
+    border-right: 1px solid #3C3C3C;
+}
+
+.folder-btn.tool-btn:hover {
+    background-color: #2D3142;
+    color: #FFFFFF;
+}
+
+/* 鏂囦欢鍒楄〃鍖哄煙 */
+.file-list-wrapper {
+    background-color: #252526;
+    border-bottom: 1px solid #3C3C3C;
+    display: flex;
+    align-items: center;
+    padding: 6px 8px; /* 閫傚綋澧炲姞鍐呰竟璺?*/
+    height: 40px; /* 澧炲姞楂樺害浠ュ绾虫枃浠堕」 */
+    flex-shrink: 0;
+    min-height: 40px; /* 纭繚鏈€灏忛珮搴?*/
+}
+
+.file-list {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 0;
+    min-height: 28px; /* 纭繚鏈€灏忛珮搴﹀绾虫枃浠堕」 */
+}
+
+/* 绌烘枃浠跺す鐘舵€?*/
+.empty-folder {
+    display: flex;
+    align-items: center;
+    color: #6C7A89;
+    font-size: 12px;
+    padding: 0 8px;
+}
+
+.empty-folder i {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+/* 鏂囦欢鎿嶄綔鎸夐挳 */
+.file-controls {
+    display: flex;
+    gap: 4px;
+    margin-left: 8px;
+}
+
+.icon-btn {
+    background: none;
+    border: 1px solid #3E4452;
+    color: #ABB2BF;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+}
+
+.icon-btn:hover {
+    background-color: #3E4452;
+    border-color: #4E5568;
+    color: #DCDCDC;
+}
+
+.icon-btn.delete:hover {
+    background-color: #3E4452;
+    border-color: #4E5568;
+    color: #F48771;
+}
+
+.file-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    color: #ABB2BF;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border: 1px solid #3E4452;
+    border-radius: 4px;
+    white-space: nowrap;
+    min-width: 0;
+    height: 28px;
+    flex-shrink: 0; /* 闃叉鏂囦欢椤硅鍘嬬缉 */
+    max-width: 150px; /* 闄愬埗鏈€澶у搴?*/
+}
+
+.file-item:hover {
+    background-color: #3E4452;
+    border-color: #4E5568;
+}
+
+.file-item.selected {
+    background-color: #0E639C;
+    border-color: #0E639C;
+    color: #FFFFFF;
+}
+
+.file-item i {
+    margin-right: 6px;
+    font-size: 11px;
+    flex-shrink: 0; /* 闃叉鍥炬爣琚帇缂?*/
+}
+
+/* 鏂囦欢鍚嶆牱寮?*/
+.file-item .file-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+}
+
+.file-item i.fa-html5 {
+    color: #E34C26;
+}
+
+.file-item i.fa-css3-alt {
+    color: #1572B6;
+}
+
+.file-item i.fa-js {
+    color: #F7DF1E;
+}
+
+.file-item i.fa-file {
+    color: #ABB2BF;
+}
+
+.file-item i.fa-folder {
+    color: #FFA500;
+}
+
+.file-item i.fa-image {
+    color: #17A2B8;
+}
+
+.file-name {
+    margin-right: 6px;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+}
+
+/* 缂栬緫鍣ㄥ鍣?*/
+.editor-container {
+    flex: 1;
+    position: relative;
+    min-height: 200px; /* 鏈€灏忛珮搴?*/
+    height: auto; /* 鍏佽鑷姩璋冩暣楂樺害 */
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+/* 鎺у埗鍙版樉绀烘椂鐨勭紪杈戝櫒瀹瑰櫒 */
+.editor-section.console-expanded .editor-container {
+    height: calc(100% - 274px); /* 鍑忓幓瀵艰埅鏍?42px) + 鏂囦欢鍒楄〃(32px) + 鎺у埗鍙?200px) */
+}
+
+/* 鎺у埗鍙伴殣钘忔椂鐨勭紪杈戝櫒瀹瑰櫒 */
+.editor-section.console-collapsed .editor-container {
+    height: calc(100% - 74px); /* 鍑忓幓瀵艰埅鏍?42px) + 鏂囦欢鍒楄〃(32px)锛岄噴鏀炬帶鍒跺彴200px楂樺害 */
+}
+
+.editor-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+}
+
+.editor-panel.active {
+    display: block;
+}
+
+.editor-panel textarea {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+    background-color: #252526;
+    color: #ABB2BF;
+    padding: 10px;
+}
+
+/* CodeMirror 缂栬緫鍣ㄦ牱寮?*/
+.CodeMirror {
+    height: 100%;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.CodeMirror-gutters {
+    background-color: #252526;
+    border-right: 1px solid #3C3C3C;
+}
+
+.CodeMirror-linenumber {
+    color: #636D83;
+    min-width: 3em;
+    text-align: right;
+}
+
+/* 闅愯棌CodeMirror婊氬姩鏉′絾淇濈暀鍔熻兘 */
+.CodeMirror-vscrollbar,
+.CodeMirror-hscrollbar {
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    pointer-events: none !important;
+}
+
+/* 纭繚婊氬姩鍔熻兘姝ｅ父宸ヤ綔 */
+.CodeMirror-scroll {
+    overflow: auto !important;
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* Internet Explorer 10+ */
+}
+
+/* 闅愯棌Webkit娴忚鍣ㄧ殑婊氬姩鏉?*/
+.CodeMirror-scroll::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+}
+
+/* 榧犳爣鎮仠鏃舵樉绀哄崐閫忔槑婊氬姩鏉?*/
+.CodeMirror:hover .CodeMirror-vscrollbar,
+.CodeMirror:hover .CodeMirror-hscrollbar {
+    opacity: 0.3 !important;
+    transition: opacity 0.2s ease-in-out !important;
+    pointer-events: auto !important;
+}
+
+/* 榧犳爣鎮仠鍦ㄦ粴鍔ㄦ潯涓婃椂瀹屽叏鏄剧ず */
+.CodeMirror .CodeMirror-vscrollbar:hover,
+.CodeMirror .CodeMirror-hscrollbar:hover {
+    opacity: 1 !important;
+}
+
+/* 鏂囦欢绠＄悊鍣ㄩ潰鏉?*/
+.file-manager {
+    padding: 15px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.file-manager-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #3C3C3C;
+}
+
+.file-manager-header h3 {
+    color: #DCDCDC;
+    font-size: 16px;
+    margin: 0;
+}
+
+.file-tree {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.folder-item {
+    margin-bottom: 2px;
+    border: 1px solid #3E4452;
+    border-radius: 4px;
+    background-color: #252526;
+}
+
+.folder-header {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-radius: 4px 4px 0 0;
+}
+
+.folder-header:hover {
+    background-color: #3E4452;
+}
+
+.folder-header i {
+    color: #FFA500;
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.folder-name {
+    color: #DCDCDC;
+    font-size: 13px;
+    font-weight: 500;
+    flex: 1;
+}
+
+.folder-actions {
+    display: flex;
+    gap: 5px;
+    margin-left: 10px;
+}
+
+.folder-content {
+    background-color: #252526;
+    border-top: 1px solid #3E4452;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.folder-content.expanded {
+    max-height: 500px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px 6px 35px;
+    border-bottom: 1px solid #2D3142;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.file-item:last-child {
+    border-bottom: none;
+}
+
+.file-item:hover {
+    background-color: #2D3142;
+}
+
+.file-item i {
+    margin-right: 8px;
+    font-size: 12px;
+}
+
+.file-item i.fa-html5 {
+    color: #E34C26;
+}
+
+.file-item i.fa-css3-alt {
+    color: #1572B6;
+}
+
+.file-item i.fa-js {
+    color: #F7DF1E;
+}
+
+.file-item i.fa-file {
+    color: #ABB2BF;
+}
+
+.file-name {
+    color: #ABB2BF;
+    font-size: 12px;
+    flex: 1;
+}
+
+.file-actions {
+    display: flex;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.file-item:hover .file-actions {
+    opacity: 1;
+}
+
+.file-action-btn {
+    background: none;
+    border: none;
+    color: #636D83;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 10px;
+    transition: all 0.2s ease;
+}
+
+.file-action-btn:hover {
+    color: #DCDCDC;
+    background-color: #3E4452;
+}
+
+.file-action-btn.delete:hover {
+    color: #F48771;
+    background-color: #3E4452;
+}
+
+/* 新建文件/文件夹对话框 */
+.file-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.file-dialog-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+.file-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: #2a2d3a;
+    border: 1px solid #3e4556;
+    border-radius: 16px;
+    padding: 32px 36px;
+    min-width: 420px;
+    max-width: 520px;
+    z-index: 1000;
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.5),
+        0 15px 25px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    display: none;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.file-dialog.active {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.file-dialog::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #6366f1;
+    border-radius: 16px 16px 0 0;
+}
+
+.file-dialog h4 {
+    color: #f1f5f9;
+    margin: 0 0 24px 0;
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #3e4556;
+}
+
+.file-dialog h4::before {
+    content: '📝';
+    font-size: 22px;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.file-dialog input {
+    width: 100%;
+    padding: 16px 20px;
+    background: #1e1f24;
+    border: 2px solid #3e4556;
+    border-radius: 10px;
+    color: #f1f5f9;
+    font-size: 15px;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    margin-bottom: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.file-dialog input::placeholder {
+    color: #9ca3af;
+    font-style: normal;
+    line-height: 1.5;
+}
+
+.file-dialog input:focus {
+    border-color: #6366f1;
+    background: #25262c;
+    box-shadow:
+        0 0 0 4px rgba(99, 102, 241, 0.15),
+        inset 0 2px 6px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+}
+
+.file-dialog input:hover {
+    border-color: #4b5563;
+    background: #212529;
+}
+
+.file-dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
+    margin-top: 28px;
+}
+
+.file-dialog-buttons button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    min-width: 90px;
+    position: relative;
+    overflow: hidden;
+}
+
+.file-dialog-buttons .btn-secondary {
+    background: #3e4556;
+    color: #d1d5db;
+    border: 1px solid #4b5563;
+}
+
+.file-dialog-buttons .btn-secondary:hover {
+    background: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(75, 85, 99, 0.25);
+}
+
+.file-dialog-buttons .btn-primary {
+    background: #6366f1;
+    color: white;
+    border: 1px solid #6366f1;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.file-dialog-buttons .btn-primary:hover {
+    background: #5558e3;
+    border-color: #5558e3;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+}
+
+.file-dialog-buttons .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+}
+
+/* 文件类型提示 */
+.file-dialog .file-type-hint {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-top: -12px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: rgba(99, 102, 241, 0.1);
+    border-left: 4px solid #6366f1;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.4;
+}
+
+.file-dialog .file-type-hint::before {
+    content: '💡';
+    font-size: 14px;
+}
+
+/* 删除确认对话框样式 */
+.file-dialog.delete-confirmation h4::before {
+    content: '⚠️';
+    font-size: 22px;
+}
+
+.file-dialog.delete-confirmation .delete-warning {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 20px 0;
+    color: #fca5a5;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.file-dialog.delete-confirmation .file-name {
+    font-weight: 700;
+    color: #f1f5f9;
+    background: rgba(239, 68, 68, 0.15);
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin: 0 6px;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.file-dialog.delete-confirmation .btn-danger {
+    background: #ef4444;
+    color: white;
+    border: 1px solid #ef4444;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.file-dialog.delete-confirmation .btn-danger:hover {
+    background: #dc2626;
+    border-color: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.35);
+}
+
+.file-dialog.delete-confirmation .btn-danger:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25);
+}
+
+.file-dialog.delete-confirmation::before {
+    background: #ef4444;
+}
+
+/* 响应式设计 */
+@media (max-width: 480px) {
+    .file-dialog {
+        min-width: 320px;
+        padding: 20px 24px;
+        margin: 20px;
+    }
+
+    .file-dialog h4 {
+        font-size: 16px;
+    }
+
+    .file-dialog input {
+        font-size: 16px; /* 防止移动端缩放 */
+    }
+
+    .file-dialog-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .file-dialog-buttons button {
+        width: 100%;
+    }
+}
+
+/* 鎺у埗鍙版牱寮?*/
+.console-container {
+    height: 200px;
+    background-color: #1e1e1e;
+    border-top: 1px solid #3e3e42;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: height 0.3s ease, opacity 0.3s ease;
+    flex-shrink: 0;
+}
+
+/* 鎺у埗鍙伴殣钘忕姸鎬?- 閫氳繃楂樺害涓?鏉ラ噴鏀剧┖闂?*/
+.console-container.collapsed {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+/* 鎺у埗鍙伴殣钘忓悗鏄剧ず鐨勬仮澶嶆寜閽?*/
+.console-recovery-btn {
+    position: fixed;
+    bottom: 15px;
+    left: 5px;
+    background-color: #2d2d30;
+    border: 1px solid #3e3e42;
+    border-left: none;
+    color: #969696;
+    padding: 10px 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 4px 4px 0;
+    z-index: 1000;
+    width: 35px;
+    height: 35px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.console-recovery-btn:hover {
+    background-color: #3e3e42;
+    color: #d4d4d4;
+    width: 40px;
+    padding-right: 12px;
+}
+
+.console-container.collapsed ~ .console-recovery-btn {
+    display: flex;
+}
+
+.console-header {
+    background-color: #2d2d30;
+    padding: 8px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #d4d4d4;
+    border-bottom: 1px solid #3e3e42;
+}
+
+.console-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.console-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.console-toggle {
+    background: none;
+    border: 1px solid #5e5e62;
+    color: #969696;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.2s ease;
+}
+
+.console-toggle:hover {
+    background-color: #3e3e42;
+    color: #d4d4d4;
+    border-color: #6e6e72;
+}
+
+
+.console-clear {
+    background: none;
+    border: 1px solid #5e5e62;
+    color: #969696;
+    padding: 2px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.console-clear:hover {
+    background-color: #3e3e42;
+    color: #d4d4d4;
+}
+
+.console-output {
+    flex: 1;
+    padding: 10px 15px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    overflow-y: auto;
+    background-color: #0c0c0c;
+    transition: all 0.3s ease;
+}
+
+/* 鎺у埗鍙板悜宸﹂殣钘忔椂鐨勫浘鏍囩姸鎬?*/
+.console-container.collapsed .console-toggle i {
+    transform: rotate(180deg);
+}
+
+
+.console-output .log {
+    color: #d4d4d4;
+    margin-bottom: 2px;
+}
+
+.console-output .error {
+    color: #f48771;
+    margin-bottom: 2px;
+}
+
+.console-output .warning {
+    color: #ffd700;
+    margin-bottom: 2px;
+}
+
+.console-output .info {
+    color: #569cd6;
+    margin-bottom: 2px;
+}
+
+/* 棰勮鍖哄煙 */
+.preview-section {
+    width: 50%;
+    background-color: #2D2D30;
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-header { background-color: #252526; padding: 8px 12px; border-bottom: 1px solid #3C3C3C; display:flex; justify-content: space-between; align-items:center; }
+
+.preview-header h3 { color: #D4D4D4; font-size: 14px; font-weight: 500; display:flex; align-items:center; gap:8px; }
+
+.preview-controls { display:flex; gap:6px; }
+
+.preview-container {
+    flex: 1;
+    background-color: #2D2D30;
+    position: relative;
+}
+
+.preview-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: #2D2D30;
+}
+
+
+/* 鍔ㄧ敾鏁堟灉 */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* 鍝嶅簲寮忚璁?*/
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+        background: #1E1E1E;
+}
+
+    .editor-section,
+    .preview-section {
+        width: 100%;
+        height: 50%;
+    }
+
+    .header-left h1 {
+        font-size: 16px;
+    }
+
+    .header-left .subtitle {
+        display: none;
+    }
+
+    .console-container {
+        height: 150px;
+    }
+}
+
+/* 婊氬姩鏉℃牱寮?*/
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #D4D4D4;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #D4D4D4;
+}
+
+/* 閿欒鎻愮ず鏍峰紡 */
+.lint-error {
+    background-color: #f48771;
+    color: #ffffff;
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 12px;
+    position: absolute;
+    z-index: 1000;
+    max-width: 200px;
+    word-wrap: break-word;
+}
+
+/* 浠ｇ爜琛ュ叏鏍峰紡 */
+.CodeMirror-hint {
+    background-color: #2d2d30;
+    border: 1px solid #3e3e42;
+    color: #d4d4d4;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+.CodeMirror-hint-active {
+    background-color: #094771;
+    color: #ffffff;
+}
+
+/* 智能编程按钮样式 */
+.ai-btn {
+    background: #404040;
+    border: 1px solid #404040;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.ai-btn:hover {
+    background: #505050;
+    border-color: #505050;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.ai-btn:active {
+    background: #303030;
+    border-color: #303030;
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.ai-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.6s ease;
+}
+
+.ai-btn:hover::before {
+    left: 100%;
+}
+
+/* 固定样式智能编程按钮 */
+.ai-btn-fixed {
+    background-color: #404040;
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.ai-btn-fixed:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.ai-btn-fixed:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.ai-style-fixed {
+    /* 额外的样式定制 */
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 10px 20px;
+}
+
+/* 头部按钮统一样式 */
+.header-btn {
+    padding: 8px 16px !important;
+    border: 1px solid transparent !important;
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    min-width: auto !important;
+}
+
+.header-btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.header-btn:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* AI对话框样式 */
+.ai-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    display: none;
+}
+
+.ai-dialog-overlay.active {
+    display: block;
+}
+
+.ai-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2d2d2d;
+    border: 1px solid #404040;
+    border-radius: 16px;
+    padding: 0;
+    z-index: 2001;
+    width: 90%;
+    max-width: 700px;
+    max-height: 85vh;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    display: none;
+    overflow: hidden;
+}
+
+.ai-dialog.active {
+    display: block;
+}
+
+.ai-dialog-header {
+    background-color: #242424;
+    padding: 24px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #404040;
+}
+
+.ai-dialog-header h4 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: -0.025em;
+}
+
+.ai-close-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+.ai-close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.ai-dialog-content {
+    padding: 32px;
+    max-height: 70vh;
+    overflow-y: auto;
+    background-color: #2d2d2d;
+}
+
+.ai-input-section {
+    height: 100%;
+}
+
+.ai-prompt-area {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 400px;
+}
+
+.ai-prompt-area textarea {
+    flex: 1;
+    width: 100%;
+    background-color: #1f1f1f;
+    border: 2px solid #404040;
+    border-radius: 12px;
+    color: #e4e4e7;
+    padding: 18px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    resize: none;
+    transition: all 0.2s ease;
+    margin-bottom: 20px;
+    min-height: 280px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.ai-prompt-area textarea:focus {
+    outline: none;
+    border-color: #606060;
+    box-shadow: 0 0 0 3px rgba(96, 96, 96, 0.2);
+    background-color: #242424;
+}
+
+.ai-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.ai-controls select {
+    background-color: #1f1f1f;
+    border: 2px solid #404040;
+    border-radius: 8px;
+    color: #e4e4e7;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    min-width: 140px;
+    transition: all 0.2s ease;
+}
+
+.ai-controls select:focus {
+    outline: none;
+    border-color: #606060;
+    box-shadow: 0 0 0 3px rgba(96, 96, 96, 0.2);
+}
+
+.ai-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+    padding: 8px 16px;
+    background-color: #1f1f1f;
+    border-radius: 20px;
+    border: 1px solid #404040;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.ai-status #aiStatusText {
+    color: #a1a1aa;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.ai-loading-spinner {
+    color: #808080;
+}
+
+.ai-loading-spinner i {
+    font-size: 14px;
+}
+
+/* AI生成按钮专用样式 */
+#aiGenerateBtn {
+    background-color: #404040;
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#aiGenerateBtn:hover:not(:disabled) {
+    background-color: #505050;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+#aiGenerateBtn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+#aiGenerateBtn:disabled {
+    background-color: #2a2a2a;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.6;
+}
+
+/* AI鎸夐挳鍔ㄧ敾 */
+@keyframes aiPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+    }
+}
+
+.ai-btn.active {
+    animation: aiPulse 2s infinite;
+}
+
+/* 鍝嶅簲寮忚璁?*/
+@media (max-width: 768px) {
+    .ai-dialog {
+        width: 95%;
+        max-height: 95vh;
+    }
+
+    .ai-dialog-content {
+        padding: 20px;
+    }
+
+    .ai-prompt-area {
+        min-height: 300px;
+    }
+
+    .ai-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .ai-status {
+        margin-left: 0;
+        justify-content: center;
+    }
+
+    .ai-prompt-area textarea {
+        min-height: 200px;
+    }
+}
+
+/* 瀵煎嚭瀵硅瘽妗嗘牱寮?*/
+.export-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+.export-dialog-overlay.active {
+    display: block;
+}
+
+.export-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2D2D30;
+    border-radius: 8px;
+    padding: 30px;
+    min-width: 500px;
+    max-width: 600px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 10001;
+    display: none;
+    animation: slideIn 0.3s ease;
+}
+
+.export-dialog.active {
+    display: block;
+}
+
+.export-dialog h4 {
+    margin-bottom: 25px;
+    color: #2C3E50;
+    font-size: 18px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.export-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.export-option {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+}
+
+.export-option:hover {
+    border-color: #3498db;
+    background-color: #e3f2fd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+}
+
+.export-option i {
+    font-size: 24px;
+    color: #3498db;
+    margin-right: 15px;
+    min-width: 24px;
+}
+
+.export-option-content h5 {
+    margin: 0 0 5px 0;
+    color: #2C3E50;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.export-option-content p {
+    margin: 0;
+    color: #7f8c8d;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.export-dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.export-dialog-buttons .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary {
+    background-color: #D4D4D4;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #2D3142;
+}
+
+/* 鍔ㄧ敾鏁堟灉 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* 鍒犻櫎鎸夐挳鍔ㄧ敾鏁堟灉 */
+@keyframes deleteSuccess {
+    0% {
+        transform: scale(1);
+        background-color: #e74c3c;
+    }
+    50% {
+        transform: scale(1.1);
+        background-color: #27ae60;
+    }
+    100% {
+        transform: scale(1);
+        background-color: #e74c3c;
+    }
+}
+
+.folder-btn.tool-btn.delete-active {
+    animation: deleteSuccess 0.6s ease;
+}
+
+/* 鍒犻櫎鎸夐挳鎮仠鏁堟灉澧炲己 */
+.folder-btn.tool-btn#deleteFileBtn:hover {
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+}
+
+/* 涓存椂娑堟伅鍔ㄧ敾 */
+@keyframes slideInOut {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    10% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    90% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.temp-message, .delete-feedback {
+    animation: slideInOut 2.3s ease;
+}
+
+/* 鏁版嵁棰勮闈㈡澘鏍峰紡 */
+.data-preview-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #2d2d30;
+    color: #d4d4d4;
+}
+
+.data-preview-header {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #3e3e42;
+}
+
+.data-preview-header h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.data-preview-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.data-viz-select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    outline: none;
+}
+
+.data-viz-select:focus {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.data-viz-select option {
+    background: #2d2d30;
+    color: #d4d4d4;
+}
+
+.data-preview-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+.data-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #7f8c8d;
+    text-align: center;
+}
+
+.data-empty-state i {
+    font-size: 48px;
+    margin-bottom: 20px;
+    opacity: 0.6;
+}
+
+.data-empty-state p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.data-empty-hint {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* 鏁版嵁琛ㄦ牸鏍峰紡 */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    background: #2d2d30;
+    color: #d4d4d4;
+}
+
+.data-table th,
+.data-table td {
+    border: 1px solid #3e3e42;
+    padding: 8px 12px;
+    text-align: left;
+    position: relative;
+}
+
+.data-table th {
+    background: #3e3e42;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.data-table tbody tr:hover {
+    background: #3e3e42;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background: rgba(62, 62, 66, 0.3);
+}
+
+.data-table tbody tr:nth-child(even):hover {
+    background: rgba(62, 62, 66, 0.5);
+}
+
+/* JSON棰勮鏍峰紡 */
+.json-preview {
+    background: #1e1e1e;
+    border: 1px solid #3e3e42;
+    border-radius: 4px;
+    padding: 15px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.json-key {
+    color: #9cdcfe;
+}
+
+.json-string {
+    color: #ce9178;
+}
+
+.json-number {
+    color: #b5cea8;
+}
+
+.json-boolean {
+    color: #569cd6;
+}
+
+.json-null {
+    color: #808080;
+}
+
+/* CSV棰勮鏍峰紡 */
+.csv-preview {
+    background: #1e1e1e;
+    border: 1px solid #3e3e42;
+    border-radius: 4px;
+    padding: 15px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 11px;
+    line-height: 1.4;
+    white-space: pre;
+    color: #d4d4d4;
+}
+
+/* 鍥捐〃瀹瑰櫒鏍峰紡 */
+.chart-container {
+    background: #1e1e1e;
+    border: 1px solid #3e3e42;
+    border-radius: 4px;
+    padding: 20px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-placeholder {
+    text-align: center;
+    color: #7f8c8d;
+}
+
+.chart-placeholder i {
+    font-size: 32px;
+    margin-bottom: 10px;
+    opacity: 0.6;
+}
+
+/* 鏁版嵁缁熻鏍峰紡 */
+.data-preview-footer {
+    background: #3e3e42;
+    padding: 12px 20px;
+    border-top: 1px solid #2d2d30;
+}
+
+.data-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 12px;
+}
+
+.data-stat {
+    color: #bdc3c7;
+}
+
+.data-stat strong {
+    color: #3498db;
+    font-weight: 600;
+}
+
+/* CSV缂栬緫鍣ㄦ牱寮?*/
+.csv-editor-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.csv-editor-container h4 {
+    color: #d4d4d4;
+    margin-bottom: 15px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.csv-edit-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.csv-edit-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    background: #2d2d30;
+    color: #d4d4d4;
+    margin-bottom: 15px;
+}
+
+.csv-edit-table th,
+.csv-edit-table td {
+    border: 1px solid #3e3e42;
+    padding: 8px 12px;
+    text-align: left;
+    position: relative;
+    cursor: text;
+    transition: background-color 0.2s ease;
+}
+
+.csv-edit-table th {
+    background: #3e3e42;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    cursor: default;
+}
+
+.csv-edit-table td:hover {
+    background: #3e3e42;
+    outline: 2px solid #3498db;
+    outline-offset: -2px;
+}
+
+.csv-edit-table td:focus {
+    background: #34495e;
+    outline: 2px solid #3498db;
+    outline-offset: -2px;
+}
+
+.csv-edit-info {
+    color: #7f8c8d;
+    font-size: 12px;
+    padding: 10px 0;
+}
+
+.csv-actions {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.csv-actions .btn {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.csv-actions .btn:hover {
+    background: linear-gradient(135deg, #2980b9, #1f4e79);
+    transform: translateY(-1px);
+}
+
+.csv-actions .btn:active {
+    transform: translateY(0);
+}
+
+/* 鍝嶅簲寮忚璁?*/
+@media (max-width: 600px) {
+    .export-dialog {
+        min-width: 90%;
+        padding: 20px;
+        margin: 20px;
+    }
+
+    .export-option {
+        padding: 15px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .export-option i {
+        margin-right: 0;
+        margin-bottom: 10px;
+        font-size: 28px;
+    }
+
+    .data-preview-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .data-preview-controls {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .data-viz-select {
+        width: 100%;
+    }
+
+    .data-stats {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+}
+
+
+

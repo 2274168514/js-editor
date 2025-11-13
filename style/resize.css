@@ -1,0 +1,129 @@
+﻿/* 鍙嫋鎷藉垎闅旀潯鏍峰紡 */
+.resize-divider {
+    width: 8px;
+    background-color: #E0E0E0;
+    cursor: col-resize;
+    position: relative;
+    user-select: none;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    z-index: 100;
+}
+
+.resize-divider::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 2px;
+    right: 2px;
+    bottom: 0;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        #007acc 20%,
+        #007acc 50%,
+        #007acc 80%,
+        transparent 100%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.resize-divider:hover { background-color: #007acc; width: 12px; }
+
+.resize-divider:hover::before {
+    opacity: 1;
+}
+
+.resize-divider.active { background-color: #007acc; width: 12px; }
+
+.resize-divider.active::before {
+    opacity: 1;
+}
+
+.resize-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    opacity: 0;
+    transition: all 0.2s ease;
+    z-index: 101;
+}
+
+.resize-divider:hover .resize-handle,
+.resize-divider.active .resize-handle {
+    opacity: 1;
+}
+
+.resize-line { width: 3px; height: 24px; background-color: #666; border-radius: 2px; transition: all 0.2s ease; }
+
+.resize-divider:hover .resize-line,
+.resize-divider.active .resize-line {
+    background-color: white;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 澧炲姞鎷栨嫿鍖哄煙 */
+.resize-divider::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: transparent;
+    cursor: col-resize;
+}
+
+.resize-tooltip { position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #0E639C, #007ACC); color:#fff; padding:6px 10px; border-radius:8px; font-size:12px; font-weight:500; white-space:nowrap; pointer-events:none; opacity:0; transition: all .2s ease; z-index:1000; box-shadow: 0 4px 12px rgba(0,0,0,.3); border:1px solid rgba(255,255,255,.2); }
+
+.resize-divider:hover .resize-tooltip { position:absolute; top:50%; left:50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #0E639C, #007ACC); color:#fff; padding:6px 10px; border-radius:8px; font-size:12px; font-weight:500; white-space:nowrap; pointer-events:none; opacity:0; transition: all .2s ease; z-index:1000; box-shadow: 0 4px 12px rgba(0,0,0,.3); border:1px solid rgba(255,255,255,.2); }
+
+/* 璋冩暣棰勮鍖哄煙鐨勬牱寮?*/
+.preview-section { flex: 1; background-color: #FFFFFF; display:flex; flex-direction:column; min-width:200px; }
+
+/* 瀹藉害鎸囩ず鍣?*/
+.width-indicator {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #007acc, #005a9e);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    z-index: 10000;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 122, 204, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.width-indicator.visible {
+    opacity: 1;
+}
+
+/* 璋冩暣缂栬緫鍣ㄥ尯鍩熸牱寮?*/
+.editor-section {
+    width: 50%;
+    min-width: 200px;
+    background-color: #282C34;
+    display: flex;
+    flex-direction: column;
+    border-right: none;
+}
+
+/* 闃叉閫夋嫨鏂囨湰 */
+.resizing {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+

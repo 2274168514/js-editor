@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高级交互式时钟</title>
+  <link rel="stylesheet" href="clock.css">
+</head>
+<body>
+  <div class="clock-widget">
+    <div class="clock-container">
+      <div class="clock-wrapper">
+        <div class="clock-header">
+          <h1>高级数字时钟</h1>
+          <p>优雅的时间显示与交互体验</p>
+        </div>
+
+        <div class="clock-display">
+          <div class="time-section">
+            <div class="time-block" id="hours">
+              <span class="time-digit">00</span>
+              <span class="time-label">时</span>
+            </div>
+            <div class="time-separator">:</div>
+            <div class="time-block" id="minutes">
+              <span class="time-digit">00</span>
+              <span class="time-label">分</span>
+            </div>
+            <div class="time-separator">:</div>
+            <div class="time-block" id="seconds">
+              <span class="time-digit">00</span>
+              <span class="time-label">秒</span>
+            </div>
+          </div>
+
+          <div class="date-section">
+            <div class="date-block" id="year">
+              <span class="date-digit">2024</span>
+              <span class="date-label">年</span>
+            </div>
+            <div class="date-block" id="month">
+              <span class="date-digit">01</span>
+              <span class="date-label">月</span>
+            </div>
+            <div class="date-block" id="day">
+              <span class="date-digit">01</span>
+              <span class="date-label">日</span>
+            </div>
+            <div class="date-block" id="weekday">
+              <span class="date-digit">周一</span>
+              <span class="date-label">星期</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="clock-controls">
+          <button id="format12Btn" class="control-btn active">12小时制</button>
+          <button id="format24Btn" class="control-btn">24小时制</button>
+          <button id="showDateBtn" class="control-btn active">显示日期</button>
+          <button id="themeToggleBtn" class="control-btn">切换主题</button>
+        </div>
+
+        <div class="clock-status">
+          <div class="status-item">
+            <span class="status-label">时区:</span>
+            <span class="status-value" id="timezone">本地时间</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">格式:</span>
+            <span class="status-value" id="format">12小时制</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="clock.js"></script>
+</body>
+</html>

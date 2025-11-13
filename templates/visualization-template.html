@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据可视化模板</title>
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #4a5568;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #4a5568;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls button {
+            background: #2d3748;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 5px 10px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(45, 55, 72, 0.3);
+        }
+
+        .controls button:hover {
+            background: #1a202c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 55, 72, 0.4);
+        }
+
+        .controls button:active {
+            transform: translateY(0);
+        }
+
+        .controls button.active {
+            background: #e53e3e;
+        }
+
+        .info-panel {
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .chart-area {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            min-height: 400px;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 400px;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #4a5568;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 40px;
+            background: #ffebee;
+            border-radius: 10px;
+            color: #c62828;
+            margin: 20px 0;
+        }
+
+        .loading-message {
+            text-align: center;
+            padding: 40px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            color: #1976d2;
+            margin: 20px 0;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .controls button {
+                display: block;
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            .chart-area {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 数据可视化平台</h1>
+            <p>基于实时数据的交互式图表展示</p>
+        </header>
+
+        <main>
+            <section class="controls">
+                <button id="showTableBtn">📋 数据表格</button>
+                <button id="showBarChartBtn">📊 柱状图</button>
+                <button id="showPieChartBtn">🥧 饼图</button>
+                <button id="showLineChartBtn">📈 折线图</button>
+                <button id="refreshDataBtn">🔄 刷新数据</button>
+            </section>
+
+            <section class="info-panel">
+                <div id="dataInfo" class="loading-message">
+                    数据加载中，请稍候...
+                </div>
+            </section>
+
+            <section class="chart-area">
+                <div id="chartContainer" class="chart-container">
+                    <div class="loading-message">
+                        正在初始化图表系统...
+                    </div>
+                </div>
+                <div id="tableContainer" class="table-container" style="display: none;">
+                    <div class="loading-message">
+                        正在准备数据表格...
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 简化的图表绘制脚本 -->
+    <script>
+        /**
+         * 简化的图表绘制脚本
+         * 专门用于从 window.appData 读取数据并绘制图表
+         */
+
+        // 全局变量
+        let currentData = null;
+        let currentView = 'bar'; // 当前显示的视图类型
+
+        // 页面加载完成后执行
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("数据可视化模板加载完成");
+
+            // 绑定按钮事件
+            const buttons = [
+                { id: 'showTableBtn', handler: showTable, view: 'table' },
+                { id: 'showBarChartBtn', handler: drawBarChart, view: 'bar' },
+                { id: 'showPieChartBtn', handler: drawPieChart, view: 'pie' },
+                { id: 'showLineChartBtn', handler: drawLineChart, view: 'line' },
+                { id: 'refreshDataBtn', handler: refreshData, view: 'bar' }
+            ];
+
+            buttons.forEach(btn => {
+                const element = document.getElementById(btn.id);
+                if (element) {
+                    element.addEventListener('click', () => {
+                        setActiveButton(btn.id);
+                        btn.handler();
+                        currentView = btn.view;
+                    });
+                }
+            });
+
+            // 延迟加载数据
+            setTimeout(loadDataAndDraw, 200);
+        });
+
+        /**
+         * 设置活动按钮状态
+         */
+        function setActiveButton(activeId) {
+            document.querySelectorAll('.controls button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(activeId)?.classList.add('active');
+        }
+
+        /**
+         * 加载数据并绘制默认图表
+         */
+        function loadDataAndDraw() {
+            try {
+                console.log("开始加载数据...");
+
+                if (!window.appData) {
+                    console.log("等待数据加载...");
+                    setTimeout(loadDataAndDraw, 100);
+                    return;
+                }
+
+                console.log("数据已加载:", window.appData);
+                currentData = processData(window.appData);
+                console.log("处理后的数据:", currentData);
+
+                if (currentData.length === 0) {
+                    showError("没有找到有效的数据，请检查数据格式");
+                    return;
+                }
+
+                updateInfoPanel();
+                drawBarChart(); // 默认显示柱状图
+                setActiveButton('showBarChartBtn');
+
+            } catch (error) {
+                console.error("数据加载失败:", error);
+                showError("数据加载失败: " + error.message);
+            }
+        }
+
+        /**
+         * 处理数据
+         */
+        function processData(data) {
+            if (!data) return [];
+
+            // 处理语言流行度数据
+            if (data.languagePopularity && Array.isArray(data.languagePopularity)) {
+                return data.languagePopularity.map(item => ({
+                    name: item.language || item.编程语言 || 'Unknown',
+                    value: parseFloat(item.percentage || item.流行度百分比 || 0),
+                    users: parseFloat(item.users || item.开发者数量 || 0),
+                    growth: parseFloat(item.growth || item.增长率 || 0),
+                    salary: parseFloat(item.salary || item.平均薪资 || 0)
+                }));
+            }
+
+            // 处理数组格式数据
+            if (Array.isArray(data)) {
+                return data.map((item, index) => ({
+                    name: item.language || item.编程语言 || item.name || `项目${index + 1}`,
+                    value: parseFloat(item.percentage || item.流行度百分比 || item.value || item.数值 || 0),
+                    users: parseFloat(item.users || item.开发者数量 || 0),
+                    growth: parseFloat(item.growth || item.增长率 || 0),
+                    salary: parseFloat(item.salary || item.平均薪资 || 0)
+                }));
+            }
+
+            return [];
+        }
+
+        /**
+         * 更新信息面板
+         */
+        function updateInfoPanel() {
+            const infoPanel = document.getElementById("dataInfo");
+            if (!infoPanel || !currentData || currentData.length === 0) return;
+
+            const totalItems = currentData.length;
+            const totalValue = currentData.reduce((sum, item) => sum + item.value, 0);
+            const avgGrowth = currentData.reduce((sum, item) => sum + item.growth, 0) / totalItems;
+            const maxSalary = Math.max(...currentData.map(item => item.salary));
+
+            infoPanel.className = 'fade-in';
+            infoPanel.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; padding: 20px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; color: #667eea;">${totalItems}</div>
+                        <div style="color: #666;">数据项</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; color: #667eea;">${totalValue.toFixed(1)}%</div>
+                        <div style="color: #666;">总值</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; color: #667eea;">${avgGrowth.toFixed(1)}%</div>
+                        <div style="color: #666;">平均增长</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; color: #667eea;">$${(maxSalary/1000).toFixed(0)}K</div>
+                        <div style="color: #666;">最高薪资</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * 显示表格
+         */
+        function showTable() {
+            hideAllCharts();
+            const tableContainer = document.getElementById("tableContainer");
+            const chartContainer = document.getElementById("chartContainer");
+
+            if (!tableContainer || !currentData || currentData.length === 0) return;
+
+            // 创建表头
+            const headers = ['名称', '流行度', '用户数', '增长率', '薪资'];
+            const headerRow = headers.map(h => `<th>${h}</th>`).join('');
+
+            // 创建数据行
+            const dataRows = currentData.map(item => {
+                return `<tr>
+                    <td><strong>${item.name}</strong></td>
+                    <td>${item.value.toFixed(1)}%</td>
+                    <td>${(item.users/1000000).toFixed(1)}M</td>
+                    <td>${item.growth.toFixed(1)}%</td>
+                    <td>$${(item.salary/1000).toFixed(0)}K</td>
+                </tr>`;
+            }).join('');
+
+            tableContainer.innerHTML = `
+                <table class="fade-in">
+                    <thead><tr>${headerRow}</tr></thead>
+                    <tbody>${dataRows}</tbody>
+                </table>
+            `;
+
+            tableContainer.style.display = 'block';
+            chartContainer.style.display = 'none';
+        }
+
+        /**
+         * 绘制柱状图
+         */
+        function drawBarChart() {
+            hideAllCharts();
+            const chartContainer = document.getElementById("chartContainer");
+            if (!chartContainer || !currentData || currentData.length === 0) return;
+
+            // 创建简单的HTML柱状图
+            const chartHTML = `
+                <div class="fade-in" style="padding: 20px;">
+                    <h3 style="text-align: center; margin-bottom: 30px; color: #333;">编程语言流行度分布</h3>
+                    <div style="display: flex; align-items: end; height: 300px; gap: 15px; padding: 0 20px;">
+                        ${currentData.map(item => `
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center; transition: transform 0.3s ease;">
+                                <div style="width: 100%; background: #4a5568;
+                                            height: ${(item.value / Math.max(...currentData.map(d => d.value))) * 250}px;
+                                            border-radius: 8px 8px 0 0; position: relative;
+                                            box-shadow: 0 4px 15px rgba(74, 85, 104, 0.3);
+                                            transition: all 0.3s ease;"
+                                            onmouseover="this.style.transform='scaleY(1.05)'; this.style.boxShadow='0 6px 20px rgba(74, 85, 104, 0.4)'"
+                                            onmouseout="this.style.transform='scaleY(1)'; this.style.boxShadow='0 4px 15px rgba(74, 85, 104, 0.3)'">
+                                    <span style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+                                               font-size: 14px; font-weight: bold; color: #4a5568;">${item.value.toFixed(1)}%</span>
+                                </div>
+                                <div style="margin-top: 15px; font-size: 12px; text-align: center; word-break: break-all; color: #333;">
+                                    ${item.name}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            chartContainer.innerHTML = chartHTML;
+            chartContainer.style.display = 'block';
+        }
+
+        /**
+         * 绘制饼图
+         */
+        function drawPieChart() {
+            hideAllCharts();
+            const chartContainer = document.getElementById("chartContainer");
+            if (!chartContainer || !currentData || currentData.length === 0) return;
+
+            const total = currentData.reduce((sum, item) => sum + item.value, 0);
+            const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF'];
+
+            // 创建简单的HTML饼图
+            const chartHTML = `
+                <div class="fade-in" style="padding: 20px;">
+                    <h3 style="text-align: center; margin-bottom: 30px; color: #333;">编程语言流行度占比</h3>
+                    <div style="display: flex; gap: 40px; align-items: center; justify-content: center;">
+                        <div style="flex: 0 0 auto;">
+                            <div style="width: 280px; height: 280px; border-radius: 50%; background: conic-gradient(
+                                ${currentData.map((item, index) => {
+                                    const percentage = (item.value / total) * 100;
+                                    const startAngle = currentData.slice(0, index).reduce((sum, i) => sum + (i.value / total) * 360, 0);
+                                    return `${colors[index]} ${startAngle}deg ${startAngle + (item.value / total) * 360}deg`;
+                                }).join(', ')}); position: relative; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                                           background: white; border-radius: 50%; width: 120px; height: 120px;
+                                           display: flex; align-items: center; justify-content: center; font-weight: bold;
+                                           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 18px; color: #667eea;">总计</div>
+                                        <div style="font-size: 16px; color: #333;">${total.toFixed(1)}%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="flex: 0 0 auto;">
+                            ${currentData.map((item, index) => `
+                                <div style="display: flex; align-items: center; margin-bottom: 12px; padding: 8px; border-radius: 8px; background: rgba(255, 255, 255, 0.8); transition: all 0.3s ease;"
+                                     onmouseover="this.style.background='rgba(102, 126, 234, 0.1)'; this.style.transform='translateX(5px)'"
+                                     onmouseout="this.style.background='rgba(255, 255, 255, 0.8)'; this.style.transform='translateX(0)'">
+                                    <div style="width: 20px; height: 20px; background: ${colors[index]};
+                                               border-radius: 4px; margin-right: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);"></div>
+                                    <span style="font-size: 14px; color: #333; font-weight: 500;">${item.name}: ${item.value.toFixed(1)}%</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            chartContainer.innerHTML = chartHTML;
+            chartContainer.style.display = 'block';
+        }
+
+        /**
+         * 绘制折线图
+         */
+        function drawLineChart() {
+            hideAllCharts();
+            const chartContainer = document.getElementById("chartContainer");
+            if (!chartContainer || !currentData || currentData.length === 0) return;
+
+            const maxValue = Math.max(...currentData.map(d => Math.abs(d.growth)));
+            const scale = maxValue > 0 ? 100 / maxValue : 1;
+
+            // 创建简单的HTML折线图
+            const chartHTML = `
+                <div class="fade-in" style="padding: 20px;">
+                    <h3 style="text-align: center; margin-bottom: 30px; color: #333;">编程语言增长率趋势</h3>
+                    <div style="height: 350px; position: relative; border-left: 2px solid #667eea; border-bottom: 2px solid #667eea; margin: 0 20px; background: rgba(255, 255, 255, 0.5); border-radius: 8px;">
+                        <!-- 零线 -->
+                        <div style="position: absolute; left: 0; right: 0; top: 50%; border-top: 2px dashed #999; z-index: 1;"></div>
+
+                        <!-- 网格线 -->
+                        ${[25, 75].map(pos => `
+                            <div style="position: absolute; left: 0; right: 0; top: ${pos}%; border-top: 1px dashed #ddd; z-index: 1;"></div>
+                        `).join('')}
+
+                        <!-- 数据点和连线 -->
+                        <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2;">
+                            <!-- 连线 -->
+                            <polyline points="${currentData.map((item, index) => {
+                                const x = (index / (currentData.length - 1)) * 90 + 5;
+                                const y = 50 - (item.growth * scale);
+                                return `${x}%,${y}%`;
+                            }).join(' ')}"
+                            style="fill: none; stroke: #667eea; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round;" />
+
+                            <!-- 数据点 -->
+                            ${currentData.map((item, index) => {
+                                const x = (index / (currentData.length - 1)) * 90 + 5;
+                                const y = 50 - (item.growth * scale);
+                                return `
+                                    <circle cx="${x}%" cy="${y}%" r="8" fill="#667eea" stroke="white" stroke-width="3"
+                                            style="cursor: pointer; transition: all 0.3s ease;"
+                                            onmouseover="this.setAttribute('r', '10'); this.style.fill='#764ba2'"
+                                            onmouseout="this.setAttribute('r', '8'); this.style.fill='#667eea'">
+                                        <title>${item.name}: ${item.growth.toFixed(1)}%</title>
+                                    </circle>
+                                    <text x="${x}%" y="${y - 5}%" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">
+                                        ${item.growth.toFixed(1)}%
+                                    </text>
+                                `;
+                            }).join('')}
+
+                            <!-- X轴标签 -->
+                            ${currentData.map((item, index) => {
+                                const x = (index / (currentData.length - 1)) * 90 + 5;
+                                return `
+                                    <text x="${x}%" y="95%" text-anchor="middle" font-size="12" fill="#666">
+                                        ${item.name.length > 10 ? item.name.substring(0, 10) + '...' : item.name}
+                                    </text>
+                                `;
+                            }).join('')}
+
+                            <!-- Y轴标签 -->
+                            <text x="2%" y="25%" text-anchor="start" font-size="11" fill="#999">${maxValue.toFixed(0)}%</text>
+                            <text x="2%" y="50%" text-anchor="start" font-size="11" fill="#999">0%</text>
+                            <text x="2%" y="75%" text-anchor="start" font-size="11" fill="#999">-${maxValue.toFixed(0)}%</text>
+                        </svg>
+                    </div>
+                    <div style="text-align: center; margin-top: 15px; font-size: 14px; color: #666;">
+                        增长率 (%) - 零线以上为正增长，零线以下为负增长
+                    </div>
+                </div>
+            `;
+
+            chartContainer.innerHTML = chartHTML;
+            chartContainer.style.display = 'block';
+        }
+
+        /**
+         * 刷新数据
+         */
+        function refreshData() {
+            console.log("刷新数据...");
+            loadDataAndDraw();
+        }
+
+        /**
+         * 隐藏所有图表
+         */
+        function hideAllCharts() {
+            const chartContainer = document.getElementById("chartContainer");
+            const tableContainer = document.getElementById("tableContainer");
+
+            if (chartContainer) chartContainer.style.display = 'none';
+            if (tableContainer) tableContainer.style.display = 'none';
+        }
+
+        /**
+         * 显示错误信息
+         */
+        function showError(message) {
+            const chartContainer = document.getElementById("chartContainer");
+            if (chartContainer) {
+                chartContainer.innerHTML = `<div class="error-message fade-in">错误: ${message}</div>`;
+                chartContainer.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

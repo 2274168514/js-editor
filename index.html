@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript在线编辑器</title>
+
+    <!-- 外部库引用 -->
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/monokai.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/lint/lint.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style/resize.css">
+</head>
+<body>
+    <!-- 头部工具栏 -->
+    <header class="header">
+        <div class="header-left">
+            <h1><i class="fas fa-code"></i> JS在线编辑器</h1>
+            
+        </div>
+        <div class="header-right">
+            <button id="aiAssistantBtn" class="btn btn-primary header-btn">
+                <i class="fas fa-code"></i> 智能编程
+            </button>
+            <button id="resetBtn" class="btn btn-dark header-btn">
+                <i class="fas fa-undo"></i> 恢复模板
+            </button>
+            <button id="exportBtn" class="btn btn-info header-btn">
+                <i class="fas fa-download"></i> 导出
+            </button>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <!-- 编辑器区域 -->
+        <section class="editor-section">
+            <!-- 文件夹导航栏 -->
+            <div class="folder-nav">
+                <!-- 左侧：编辑器选择按钮 -->
+                <div class="folder-nav-left">
+                    <button class="folder-btn active" data-folder="html" title="HTML编辑器">
+                        <i class="fab fa-html5"></i> HTML
+                    </button>
+                    <button class="folder-btn" data-folder="css" title="CSS编辑器">
+                        <i class="fab fa-css3-alt"></i> CSS
+                    </button>
+                    <button class="folder-btn" data-folder="javascript" title="JavaScript编辑器">
+                        <i class="fab fa-js"></i> JavaScript
+                    </button>
+                    <button class="folder-btn" data-folder="assets" title="数据管理">
+                        <i class="fas fa-database"></i> Data
+                    </button>
+                </div>
+
+                <!-- 右侧：工具按钮 -->
+                <div class="folder-nav-right">
+                    <button class="folder-btn tool-btn" id="beautifyBtn" title="美化代码" aria-label="美化代码">
+                        <i class="fas fa-magic"></i>
+                    </button>
+                    <button class="folder-btn tool-btn" id="clearBtn" title="清空代码" aria-label="清空代码">
+                        <i class="fas fa-eraser"></i>
+                    </button>
+                    <button class="folder-btn tool-btn" id="newFileBtn" title="新建文件" aria-label="新建文件">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="folder-btn tool-btn" id="deleteFileBtn" title="删除文件" aria-label="删除文件">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <label for="fileUpload" class="folder-btn tool-btn" title="上传文件" aria-label="上传文件" style="margin: 0;">
+                        <i class="fas fa-upload"></i>
+                    </label>
+                    <input type="file" id="fileUpload" accept=".html,.css,.js,.json,.csv,.txt,.md,image/*" style="display: none;" multiple>
+                </div>
+            </div>
+
+            <!-- 文件列表区域 -->
+            <div class="file-list-wrapper">
+                <div class="file-list" id="fileList">
+                    <!-- 文件列表将在这里动态生成 -->
+                </div>
+            </div>
+
+            <!-- 代码编辑器容器 -->
+            <div class="editor-container">
+                <div class="editor-panel active" id="html-panel">
+                    <textarea id="html-editor" placeholder="在这里编写HTML代码..."></textarea>
+                </div>
+                <div class="editor-panel" id="css-panel">
+                    <textarea id="css-editor" placeholder="在这里编写CSS代码..."></textarea>
+                </div>
+                <div class="editor-panel" id="js-panel">
+                    <textarea id="js-editor" placeholder="在这里编写JavaScript代码..."></textarea>
+                </div>
+                <div class="editor-panel" id="data-panel">
+                    <textarea id="data-editor" placeholder="在这里编辑JSON或CSV数据..."></textarea>
+                </div>
+            </div>
+
+            <!-- 控制台输出 -->
+            <div class="console-container">
+                <div class="console-header">
+                    <div class="console-title">
+                        <i class="fas fa-terminal"></i> 控制台
+                    </div>
+                    <div class="console-controls">
+                        <button id="toggleConsole" class="console-toggle" title="隐藏/显示控制台">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button id="clearConsole" class="console-clear">清空</button>
+                    </div>
+                </div>
+                <div id="console" class="console-output"></div>
+            </div>
+
+            <!-- 控制台恢复按钮 -->
+            <button id="restoreConsole" class="console-recovery-btn" title="显示控制台">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </section>
+
+        <!-- 可拖拽分隔条 -->
+        <div class="resize-divider" id="resizeDivider">
+            <div class="resize-handle">
+                <div class="resize-line"></div>
+                <div class="resize-line"></div>
+                <div class="resize-line"></div>
+            </div>
+            <div class="resize-tooltip" id="resizeTooltip">拖拽调整宽度</div>
+        </div>
+
+        <!-- 预览区域 -->
+        <section class="preview-section">
+            <div class="preview-header">
+                <h3><i class="fas fa-eye"></i> 实时预览</h3>
+                <div class="preview-controls">
+                    <button id="refreshPreview" class="btn-small icon-btn" title="刷新预览" aria-label="刷新预览">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button id="fullscreenPreview" class="btn-small icon-btn" title="全屏预览" aria-label="全屏预览">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="preview-container">
+                <iframe id="preview" class="preview-frame"></iframe>
+            </div>
+        </section>
+    </main>
+
+    <!-- 外部JavaScript库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/closetag.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/lint/lint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/lint/javascript-lint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/show-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jshint/2.13.6/jshint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/javascript-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/css-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/xml-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.9/beautify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.9/beautify-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.9/beautify-html.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <!-- 文件对话框 -->
+    <div class="file-dialog-overlay" id="fileDialogOverlay"></div>
+    <div class="file-dialog" id="fileDialog">
+        <h4 id="fileDialogTitle">新建文件</h4>
+        <input type="text" id="fileNameInput" placeholder="请输入文件名...">
+        <div class="file-dialog-buttons">
+            <button class="btn btn-secondary" id="fileDialogCancel">取消</button>
+            <button class="btn btn-primary" id="fileDialogConfirm">创建</button>
+        </div>
+    </div>
+
+    <!-- AI编程助手对话框 -->
+    <div class="ai-dialog-overlay" id="aiDialogOverlay"></div>
+    <div class="ai-dialog" id="aiDialog">
+        <div class="ai-dialog-header">
+            <h4><i class="fas fa-code"></i> 智能编程助手</h4>
+            <button class="ai-close-btn" id="aiCloseBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="ai-dialog-content">
+            <div class="ai-input-section">
+                <div class="ai-prompt-area">
+                    <textarea id="aiPrompt" placeholder="描述你想要创建的功能...
+例如：创建一个响应式的导航栏，包含下拉菜单"></textarea>
+                    <div class="ai-controls">
+                        <select id="aiTargetFolder">
+                            <option value="html">HTML文件</option>
+                            <option value="css">CSS文件</option>
+                            <option value="javascript">JavaScript文件</option>
+                        </select>
+                        <button id="aiGenerateBtn" class="btn btn-primary">
+                            <i class="fas fa-magic"></i> 生成代码
+                        </button>
+                        <div class="ai-status" id="aiStatus">
+                            <span id="aiStatusText">就绪</span>
+                            <div class="ai-loading-spinner" id="aiLoading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导出选项对话框 -->
+    <div class="export-dialog-overlay" id="exportDialogOverlay"></div>
+    <div class="export-dialog" id="exportDialog">
+        <h4><i class="fas fa-download"></i> 选择导出方式</h4>
+        <div class="export-options">
+            <div class="export-option" id="exportSingleHtml">
+                <i class="fas fa-file-code"></i>
+                <div class="export-option-content">
+                    <h5>导出为单个HTML文件</h5>
+                    <p>将所有代码合并到一个HTML文件中</p>
+                </div>
+            </div>
+            <div class="export-option" id="exportZipFile">
+                <i class="fas fa-file-archive"></i>
+                <div class="export-option-content">
+                    <h5>导出为ZIP压缩包</h5>
+                    <p>导出所有文件为项目文件夹</p>
+                </div>
+            </div>
+        </div>
+        <div class="export-dialog-buttons">
+            <button class="btn btn-secondary" id="exportDialogCancel">取消</button>
+        </div>
+    </div>
+
+    <!-- 主JavaScript文件 -->
+    <script src="js/editor.js"></script>
+    <script src="js/file-explorer.js"></script>
+    <script src="js/file-manager.js"></script>
+    <!-- <script src="js/chart-fixer.js"></script> 已禁用，新的可视化模板不需要修复器 -->
+    <script src="js/selection-fixer.js"></script>
+    <script src="js/ai-style-fixer.js"></script>
+    <script src="js/ai-assistant.js"></script>
+</body>
+</html>
+
