@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Driver - 智能生成代码平台</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    @keyframes fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-fade-in-up {
+      animation: fade-in-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+    }
+    .glass-effect {
+      backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .text-gradient {
+      background: linear-gradient(to right, #60a5fa, #a78bfa, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+<body class="bg-black text-white">
+  <div class="relative min-h-screen w-full overflow-hidden bg-black flex flex-col items-center justify-center p-4">
+    <!-- Background -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vh] md:w-[50vw] md:h-[90vh] bg-gradient-to-br from-blue-500/20 via-purple-500/15 to-pink-500/10 rounded-full blur-[200px]"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vh] md:w-[40vw] md:h-[70vh] bg-gradient-to-tr from-cyan-500/10 via-blue-500/15 to-purple-500/10 rounded-full blur-[150px]" style="animation-delay: 1s;"></div>
+
+    <!-- Content -->
+    <main class="relative z-10 flex flex-col items-center text-center max-w-5xl">
+      <!-- Welcome Section (shown when not logged in) -->
+      <div id="welcomeSection" class="w-full">
+        <!-- Title -->
+        <div
+          class="animate-fade-in-up"
+          style="animation-delay: 0.1s;"
+        >
+          <h1 class="text-6xl md:text-8xl lg:text-9xl font-light tracking-tight text-white">
+            Web Driver
+          </h1>
+        </div>
+
+        <!-- Subtitle -->
+        <div
+          class="animate-fade-in-up mt-8"
+          style="animation-delay: 0.3s;"
+        >
+          <p class="text-xl md:text-2xl font-light text-gray-300 max-w-2xl">
+            智能代码生成 · 实时预览 · 高效开发
+          </p>
+        </div>
+
+        <!-- Features -->
+        <div
+          class="flex flex-wrap justify-center gap-4 mt-12 animate-fade-in-up"
+          style="animation-delay: 0.4s;"
+        >
+          <div class="glass-effect px-6 py-3 rounded-full">
+            <span class="text-gray-200 font-light">代码生成</span>
+          </div>
+          <div class="glass-effect px-6 py-3 rounded-full">
+            <span class="text-gray-200 font-light">智能命名</span>
+          </div>
+          <div class="glass-effect px-6 py-3 rounded-full">
+            <span class="text-gray-200 font-light">实时预览</span>
+          </div>
+        </div>
+
+        <!-- Auth Buttons (shown when not logged in) -->
+        <div
+          id="authButtons"
+          class="mt-20 animate-fade-in-up flex gap-6 justify-center"
+          style="animation-delay: 0.5s;"
+        >
+          <button
+            id="loginBtn"
+            class="relative px-12 py-4 text-lg font-light text-white rounded-full glass-effect border border-white/20 hover:bg-white/10 transition-all duration-300 hover:scale-105"
+          >
+            登录
+          </button>
+
+          <button
+            id="registerBtn"
+            class="relative px-12 py-4 text-lg font-light text-gray-300 rounded-full border border-gray-700 hover:border-gray-500 hover:text-white transition-all duration-300 hover:scale-105"
+          >
+            注册
+          </button>
+        </div>
+
+        <!-- Start Button (shown when logged in) -->
+        <div
+          id="startButtonContainer"
+          class="mt-20 animate-fade-in-up hidden justify-center"
+          style="animation-delay: 0.5s;"
+        >
+          <button
+            id="startBtn"
+            class="relative px-12 py-4 text-lg font-light text-white rounded-full glass-effect border border-white/20 hover:bg-white/10 transition-all duration-300 hover:scale-105"
+          >
+            开始使用
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="absolute bottom-8 text-gray-500 text-sm animate-fade-in-up" style="animation-delay: 0.8s;">
+      <div class="text-center">
+        <p class="font-light">
+          孙光宇 · 李波涛 · 杨健
+          <br>
+          指导老师: 李昕
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm">
+    <div class="glass-effect p-8 rounded-2xl max-w-md w-full mx-4 animate-fade-in-up">
+      <h2 class="text-2xl font-light text-white mb-6 text-center">登录</h2>
+
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="邮箱地址"
+            required
+            class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40 transition-colors"
+          />
+        </div>
+
+        <div>
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="密码"
+            required
+            class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40 transition-colors"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-3 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-colors font-light"
+        >
+          登录
+        </button>
+      </form>
+
+      <div class="mt-4 text-center">
+        <button
+          id="showRegisterFromLogin"
+          class="text-gray-300 hover:text-white transition-colors text-sm"
+        >
+          还没有账号？点击注册
+        </button>
+      </div>
+
+      <button
+        id="closeLoginModal"
+        class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div id="registerModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm">
+    <div class="glass-effect p-8 rounded-2xl max-w-md w-full mx-4 animate-fade-in-up">
+      <h2 class="text-2xl font-light text-white mb-6 text-center">注册</h2>
+
+      <form id="registerForm" class="space-y-4">
+        <div>
+          <input
+            type="text"
+            id="registerName"
+            placeholder="用户名"
+            required
+            class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40 transition-colors"
+          />
+        </div>
+
+        <div>
+          <input
+            type="email"
+            id="registerEmail"
+            placeholder="邮箱地址"
+            required
+            class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40 transition-colors"
+          />
+        </div>
+
+        <div>
+          <input
+            type="password"
+            id="registerPassword"
+            placeholder="密码"
+            required
+            minlength="6"
+            class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40 transition-colors"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-3 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-colors font-light"
+        >
+          注册
+        </button>
+      </form>
+
+      <div class="mt-4 text-center">
+        <button
+          id="showLoginFromRegister"
+          class="text-gray-300 hover:text-white transition-colors text-sm"
+        >
+          已有账号？点击登录
+        </button>
+      </div>
+
+      <button
+        id="closeRegisterModal"
+        class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Notification -->
+  <div id="notification" class="fixed top-8 right-8 hidden glass-effect text-white px-6 py-3 rounded-lg z-50 animate-fade-in-up">
+    <div class="flex items-center">
+      <span id="notificationIcon" class="w-2 h-2 rounded-full mr-3"></span>
+      <span id="notificationText" class="text-sm"></span>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * 初始化 Supabase 客户端
+     * 注意：请替换以下 URL 和 anon key 为您自己的 Supabase 项目配置
+     */
+    const { createClient } = window.supabase;
+    const supabase = createClient(
+      'https://yzchgesnqwoiaubxsbzp.supabase.co', // 替换为您的 Supabase 项目 URL
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl6Y2hnZXNucXdvaWF1YnhzYnpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMyNzc4MDgsImV4cCI6MjA3ODg1MzgwOH0.-TGeCrSJE--Pp-WzdWiN_XoeRwHLLI15cGlV2G4sTi8' // 替换为您的 Supabase 匿名密钥
+    );
+
+    /**
+     * 页面 DOM 加载完成后执行初始化
+     */
+    document.addEventListener('DOMContentLoaded', function() {
+      // 获取所有需要的 DOM 元素
+      const elements = {
+        // 按钮元素
+        startBtn: document.getElementById('startBtn'),
+        loginBtn: document.getElementById('loginBtn'),
+        registerBtn: document.getElementById('registerBtn'),
+        demoBtn: document.getElementById('demoBtn'),
+
+        // 模态框元素
+        loginModal: document.getElementById('loginModal'),
+        registerModal: document.getElementById('registerModal'),
+
+        // 表单元素
+        loginForm: document.getElementById('loginForm'),
+        registerForm: document.getElementById('registerForm'),
+
+        // 表单输入字段
+        loginEmail: document.getElementById('loginEmail'),
+        loginPassword: document.getElementById('loginPassword'),
+        registerName: document.getElementById('registerName'),
+        registerEmail: document.getElementById('registerEmail'),
+        registerPassword: document.getElementById('registerPassword'),
+
+        // 界面切换按钮
+        showRegisterFromLogin: document.getElementById('showRegisterFromLogin'),
+        showLoginFromRegister: document.getElementById('showLoginFromRegister'),
+        closeLoginModal: document.getElementById('closeLoginModal'),
+        closeRegisterModal: document.getElementById('closeRegisterModal'),
+
+        // 界面容器
+        authButtons: document.getElementById('authButtons'),
+        startButtonContainer: document.getElementById('startButtonContainer'),
+        welcomeSection: document.getElementById('welcomeSection'),
+
+        // 通知元素
+        notification: document.getElementById('notification'),
+        notificationIcon: document.getElementById('notificationIcon'),
+        notificationText: document.getElementById('notificationText')
+      };
+
+      /**
+       * 显示通知消息
+       * @param {string} message - 消息内容
+       * @param {string} type - 消息类型 ('success' | 'error')
+       * @param {number} duration - 显示时长（毫秒）
+       */
+      function showNotification(message, type = 'success', duration = 3000) {
+        elements.notificationText.textContent = message;
+        elements.notificationIcon.className = `w-2 h-2 rounded-full mr-3 ${
+          type === 'success' ? 'bg-green-400' : 'bg-red-400'
+        }`;
+        elements.notification.classList.remove('hidden');
+
+        setTimeout(() => {
+          elements.notification.classList.add('hidden');
+        }, duration);
+      }
+
+      /**
+       * 显示模态框
+       * @param {HTMLElement} modal - 要显示的模态框元素
+       */
+      function showModal(modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        // 聚焦到第一个输入框
+        const firstInput = modal.querySelector('input');
+        if (firstInput) {
+          setTimeout(() => firstInput.focus(), 100);
+        }
+      }
+
+      /**
+       * 隐藏模态框
+       * @param {HTMLElement} modal - 要隐藏的模态框元素
+       */
+      function hideModal(modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        // 清空表单
+        const form = modal.querySelector('form');
+        if (form) {
+          form.reset();
+        }
+      }
+
+      /**
+       * 更新界面显示状态
+       * @param {boolean} isLoggedIn - 用户是否已登录
+       */
+      function updateUIState(isLoggedIn) {
+        if (isLoggedIn) {
+          elements.authButtons.classList.add('hidden');
+          elements.startButtonContainer.classList.remove('hidden');
+        } else {
+          elements.authButtons.classList.remove('hidden');
+          elements.startButtonContainer.classList.add('hidden');
+        }
+      }
+
+      /**
+       * 检查用户登录状态
+       */
+      async function checkAuthState() {
+        try {
+          const { data: { session }, error } = await supabase.auth.getSession();
+          if (error) throw error;
+
+          updateUIState(!!session);
+
+          if (session) {
+            showNotification(`欢迎回来，${session.user.email}`, 'success');
+          }
+        } catch (error) {
+          console.error('检查登录状态失败:', error);
+        }
+      }
+
+      /**
+       * 处理用户注册
+       * @param {Event} e - 表单提交事件
+       */
+      async function handleRegister(e) {
+        e.preventDefault();
+
+        const name = elements.registerName.value.trim();
+        const email = elements.registerEmail.value.trim();
+        const password = elements.registerPassword.value;
+
+        try {
+          // 使用 Supabase 进行用户注册
+          const { data, error } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+              data: {
+                display_name: name
+              }
+            }
+          });
+
+          if (error) throw error;
+
+          showNotification('注册成功！请检查邮箱并确认注册', 'success');
+          hideModal(elements.registerModal);
+
+          // 显示登录模态框让用户登录
+          setTimeout(() => {
+            showModal(elements.loginModal);
+          }, 1500);
+
+        } catch (error) {
+          console.error('注册失败:', error);
+          showNotification(error.message || '注册失败，请重试', 'error');
+        }
+      }
+
+      /**
+       * 处理用户登录
+       * @param {Event} e - 表单提交事件
+       */
+      async function handleLogin(e) {
+        e.preventDefault();
+
+        const email = elements.loginEmail.value.trim();
+        const password = elements.loginPassword.value;
+
+        try {
+          // 使用 Supabase 进行用户登录
+          const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+          if (error) throw error;
+
+          showNotification(`登录成功！欢迎 ${email}`, 'success');
+          hideModal(elements.loginModal);
+          updateUIState(true);
+
+        } catch (error) {
+          console.error('登录失败:', error);
+          showNotification(error.message || '登录失败，请检查用户名和密码', 'error');
+        }
+      }
+
+      /**
+       * 处理用户登出
+       */
+      async function handleLogout() {
+        try {
+          const { error } = await supabase.auth.signOut();
+          if (error) throw error;
+
+          showNotification('已成功登出', 'success');
+          updateUIState(false);
+
+        } catch (error) {
+          console.error('登出失败:', error);
+          showNotification(error.message || '登出失败，请重试', 'error');
+        }
+      }
+
+      /**
+       * 监听认证状态变化
+       */
+      supabase.auth.onAuthStateChange((event, session) => {
+        console.log('Auth event:', event);
+        updateUIState(!!session);
+
+        if (event === 'SIGNED_IN') {
+          console.log('用户已登录:', session.user.email);
+        } else if (event === 'SIGNED_OUT') {
+          console.log('用户已登出');
+        }
+      });
+
+      // 绑定事件监听器
+
+      // 开始使用按钮点击事件
+      if (elements.startBtn) {
+        elements.startBtn.addEventListener('click', function() {
+          window.location.href = 'index.html';
+        });
+      }
+
+      // 功能演示按钮点击事件
+      if (elements.demoBtn) {
+        elements.demoBtn.addEventListener('click', function() {
+          const prompts = [
+            '导航栏组件',
+            '卡片布局',
+            '表单设计',
+            '数据表格',
+            '图片画廊'
+          ];
+
+          const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+          showNotification(`已选择: ${randomPrompt}`, 'success');
+
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1500);
+        });
+      }
+
+      // 登录按钮点击事件
+      if (elements.loginBtn) {
+        elements.loginBtn.addEventListener('click', () => showModal(elements.loginModal));
+      }
+
+      // 注册按钮点击事件
+      if (elements.registerBtn) {
+        elements.registerBtn.addEventListener('click', () => showModal(elements.registerModal));
+      }
+
+      // 表单提交事件
+      if (elements.loginForm) {
+        elements.loginForm.addEventListener('submit', handleLogin);
+      }
+
+      if (elements.registerForm) {
+        elements.registerForm.addEventListener('submit', handleRegister);
+      }
+
+      // 模态框切换事件
+      if (elements.showRegisterFromLogin) {
+        elements.showRegisterFromLogin.addEventListener('click', () => {
+          hideModal(elements.loginModal);
+          showModal(elements.registerModal);
+        });
+      }
+
+      if (elements.showLoginFromRegister) {
+        elements.showLoginFromRegister.addEventListener('click', () => {
+          hideModal(elements.registerModal);
+          showModal(elements.loginModal);
+        });
+      }
+
+      // 关闭模态框事件
+      if (elements.closeLoginModal) {
+        elements.closeLoginModal.addEventListener('click', () => hideModal(elements.loginModal));
+      }
+
+      if (elements.closeRegisterModal) {
+        elements.closeRegisterModal.addEventListener('click', () => hideModal(elements.registerModal));
+      }
+
+      // 点击模态框背景关闭
+      if (elements.loginModal) {
+        elements.loginModal.addEventListener('click', function(e) {
+          if (e.target === this) {
+            hideModal(this);
+          }
+        });
+      }
+
+      if (elements.registerModal) {
+        elements.registerModal.addEventListener('click', function(e) {
+          if (e.target === this) {
+            hideModal(this);
+          }
+        });
+      }
+
+      // 键盘事件处理
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          hideModal(elements.loginModal);
+          hideModal(elements.registerModal);
+        }
+      });
+
+      // 初始化页面状态
+      checkAuthState();
+
+      // 显示 Supabase 配置提示（仅在开发环境下）
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.log('%c⚠️ 重要提醒', 'color: red; font-size: 16px; font-weight: bold;');
+        console.log('%c请在 JavaScript 代码中配置您的 Supabase 项目 URL 和匿名密钥', 'color: orange; font-size: 14px;');
+        console.log('%c配置位置：第 260-262 行的 createClient 函数调用', 'color: orange; font-size: 14px;');
+        console.log('%c获取密钥：https://supabase.com/dashboard/project/_/settings/api', 'color: orange; font-size: 14px;');
+      }
+    });
+  </script>
+</body>
+</html>

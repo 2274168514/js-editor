@@ -1,175 +1,129 @@
-# JavaScript在线编辑器
+# Web Driver - 智能生成代码平台
 
-一个功能完整的JavaScript在线编辑器，支持HTML、CSS、JavaScript实时编辑和预览，集成AI智能编程助手。
+一个基于 Supabase 认证的智能代码生成平台，支持实时预览和高效开发。
 
-## ✨ 核心功能
+## 🚀 功能特性
 
-### 🎯 编辑器功能
-- **多标签编辑器**: 支持HTML、CSS、JavaScript三种代码编辑
-- **实时预览**: 代码修改后自动更新预览效果
-- **语法高亮**: 使用CodeMirror提供专业的代码编辑体验
-- **智能提示**: 支持代码自动补全和语法检查
-- **控制台输出**: 实时显示console.log输出和错误信息
+- **智能代码生成** - 使用 AI 技术生成前端代码
+- **实时预览** - 即时查看代码效果
+- **用户认证** - 基于 Supabase 的安全登录注册系统
+- **响应式设计** - 适配各种设备屏幕
+- **玻璃化界面** - 现代化的毛玻璃效果设计
 
-### 📁 文件管理系统
-- **多文件支持**: 支持创建、编辑、删除多个文件
-- **文件类型**: 支持HTML、CSS、JavaScript、JSON、CSV等格式
-- **文件夹组织**: 按文件类型自动分类管理
-- **文件浏览器**: 直观的文件列表和选择界面
-
-### 💾 持久化存储
-- **Ctrl+S保存**: 快捷键保存当前文件
-- **自动保存**: 切换文件时自动保存修改
-- **刷新恢复**: 页面刷新后完整恢复所有文件和修改
-- **本地存储**: 使用localStorage持久化存储所有数据
-
-### 🤖 AI智能编程
-- **智能代码生成**: 集成智谱清言AI，支持自然语言生成代码
-- **多文件类型**: 可生成HTML、CSS、JavaScript单文件
-- **实时对话**: 支持编程需求的实时问答和修改
-
-### 🎨 界面优化
-- **现代化界面**: 深色主题，专业的开发环境
-- **全屏显示**: 修复白边问题，支持真正全屏预览
-- **响应式设计**: 适配不同屏幕尺寸和设备
-- **分隔条调整**: 支持拖拽调整编辑器和预览区域大小
-
-### 🛠️ 开发工具
-- **代码美化**: 支持HTML、CSS、JavaScript代码格式化
-- **错误检查**: JSHint集成，实时语法检查
-- **快捷键支持**: 完整的键盘快捷键支持
-- **代码导出**: 支持导出为单个HTML文件或ZIP压缩包
-
-## 项目结构
+## 📦 项目结构
 
 ```
 js-editor/
-├── index.html              # 主页面文件
-├── README.md               # 项目说明文档
-├── style/
-│   ├── main.css            # 主样式文件
-│   └── resize.css          # 分隔条样式
-├── js/
-│   ├── editor.js           # 编辑器核心功能
-│   ├── file-explorer.js    # 文件浏览器功能
-│   ├── file-manager.js     # 文件管理功能
-│   ├── ai-assistant.js     # AI智能编程助手
-│   ├── selection-fixer.js  # 选择器修复工具
-│   └── chart-drawer.js     # 图表绘制工具
-├── templates/
-│   └── visualization-template.html  # 可视化模板
-├── clock.html              # 时钟示例页面
-├── clock.css               # 时钟样式文件
-└── clock.js                # 时钟逻辑文件
+├── index.html              # 主应用界面
+├── welcome.html            # 注册登录页面
+├── ai-assistant-guide.html # 原始备份文件
+├── assets/                 # 静态资源目录
+├── js/                     # JavaScript 文件目录
+├── lib/                    # 第三方库目录
+├── style/                  # 样式文件目录
+└── data/                   # 数据文件目录
 ```
+
+## 🛠️ 技术栈
+
+- **前端框架**: HTML5 + CSS3 + JavaScript (ES6+)
+- **UI 框架**: Tailwind CSS
+- **后端服务**: Supabase (认证 + 数据库)
+- **样式效果**: CSS Glassmorphism
+- **动画效果**: CSS Animations
 
 ## 🚀 快速开始
 
-1. **下载项目**: 克隆或下载项目到本地
-2. **打开编辑器**: 在浏览器中打开`index.html`
-3. **创建文件**: 点击新建文件按钮创建新的HTML、CSS或JavaScript文件
-4. **编写代码**: 在编辑器中编写代码
-5. **实时预览**: 右侧预览区域实时显示效果
-6. **保存工作**: 按Ctrl+S保存，所有修改都会持久化
+### 方法一：直接运行
+1. 克隆或下载项目
+2. 直接在浏览器中打开 `welcome.html`
 
-## 🎯 使用指南
+### 方法二：本地服务器
+```bash
+# 安装 serve（如果尚未安装）
+npm install -g serve
 
-### 基本操作
-- **切换标签**: 点击HTML、CSS、JavaScript标签切换编辑器
-- **文件管理**: 在左侧文件列表中管理所有文件
-- **AI助手**: 点击"智能编程"按钮使用AI生成代码
-- **全屏预览**: 点击预览区域的全屏按钮
+# 启动本地服务器
+cd js-editor
+serve -p 8080
 
-### 快捷键
-- `Ctrl + S`: 保存当前文件
-- `Ctrl + Enter`: 运行代码
-- `Ctrl + Space`: 显示代码提示
-- `F11`: 切换全屏编辑模式
+# 在浏览器中访问
+http://localhost:8080
+```
 
-### AI编程助手
-1. 点击"智能编程"按钮
-2. 在文本框中描述您想要创建的功能
-3. 选择要生成的文件类型（HTML、CSS或JavaScript）
-4. 点击"生成代码"，AI会自动创建并打开文件
+### 方法三：Python 服务器
+```bash
+cd js-editor
+python -m http.server 8080
+```
 
-## 🔧 技术栈
+## ⚙️ 配置 Supabase
 
-- **前端框架**: 纯HTML/CSS/JavaScript（无框架依赖）
-- **代码编辑器**: CodeMirror 5.65.15
-- **AI集成**: 智谱清言API
-- **样式设计**: 自定义CSS + Font Awesome图标
-- **本地存储**: localStorage持久化
-- **浏览器兼容**: 支持所有现代浏览器
+1. 访问 [Supabase Dashboard](https://supabase.com/dashboard)
+2. 创建新项目或选择现有项目
+3. 在项目设置中获取 **Project URL** 和 **anon key**
+4. 替换代码中的配置（第 265-267 行）
 
-## 📂 核心功能模块
+```javascript
+const supabase = createClient(
+  'https://your-project-id.supabase.co',
+  'your-anonymous-key'
+);
+```
 
-### JSEditor (editor.js)
-编辑器的核心类，负责整体功能协调
+## 📱 使用说明
 
-### FileExplorer (file-explorer.js)
-文件浏览器，管理文件系统、文件夹显示、文件选择
+1. **访问注册页面** - 打开 `welcome.html`
+2. **注册账号** - 填写用户名、邮箱和密码
+3. **登录系统** - 使用邮箱和密码登录
+4. **开始使用** - 点击"开始使用"进入主应用
+5. **生成代码** - 在主应用中使用智能代码生成功能
 
-### FileManager (file-manager.js)
-文件管理器，处理文件的创建、删除、重命名等操作
+## 🔧 开发指南
 
-### AIAssistant (ai-assistant.js)
-AI智能编程助手，集成智谱清言API进行代码生成
+### 本地开发
+```bash
+# 启动开发服务器
+serve -p 8080
 
-## 🌟 最新功能 (v2.0)
+# 或使用 Python
+python -m http.server 8080
+```
 
-### ✨ 完全重构的文件管理系统
-- 支持多文件同时编辑
-- 文件类型自动识别和分类
-- 完整的文件生命周期管理
+### 项目配置
+- 编辑 `welcome.html` 中的 Supabase 配置
+- 修改 Tailwind CSS 配置（如需要）
+- 调整样式和布局
 
-### 💾 增强的持久化存储
-- Ctrl+S快捷键保存
-- 自动保存机制
-- 页面刷新后完整恢复
-- 文件删除操作持久化
+## 🎨 界面设计
 
-### 🤖 AI智能编程集成
-- 自然语言代码生成
-- 支持HTML、CSS、JavaScript单文件生成
-- 实时代码优化和建议
+- **毛玻璃效果** - 现代化的视觉设计
+- **渐变背景** - 动态的背景动画
+- **响应式布局** - 适配移动端和桌面端
+- **平滑动画** - 优雅的交互效果
 
-### 🎨 全屏显示优化
-- 完全消除白边问题
-- 响应式全屏布局
-- 新文件默认全屏模板
+## 🔐 安全特性
 
-## 🔍 浏览器支持
-
-- Chrome 60+
-- Firefox 55+
-- Safari 11+
-- Edge 79+
+- **JWT 认证** - 基于 Supabase 的安全认证
+- **邮箱验证** - 用户注册需要邮箱验证
+- **密码加密** - 安全的密码存储
+- **CORS 保护** - 跨域请求保护
 
 ## 📄 许可证
 
-MIT License
+本项目由 孙光宇、李波涛、杨健 开发，指导老师：李昕
 
-## 🔄 更新日志
+## 🤝 贡献者
 
-### v2.0.0 (2025-11-13)
-- ✨ **重大更新**: 完全重构文件管理系统
-- 💾 **持久化**: 实现完整的文件持久化存储
-- 🤖 **AI集成**: 集成智谱清言AI智能编程助手
-- 🎨 **界面优化**: 修复全屏显示白边问题
-- ⚡ **性能优化**: 优化代码执行和预览性能
-- 🛠️ **功能增强**: 增强代码美化和错误检查功能
-
-### v1.0.0 (2025-11-13)
-- 初始版本发布
-- 基础HTML/CSS/JavaScript编辑功能
-- 简单的本地存储和代码导出
-- 基础用户界面
-
-## 🤝 贡献
-
-欢迎提交Issue和Pull Request来改进这个项目！
+- **孙光宇 (guangyu sun)** - China University of Petroleum (East China)
+- **李波涛** - China University of Petroleum (East China) 
+- **杨健** - China University of Petroleum (East China)
+- **指导老师：李昕** - China University of Petroleum (East China)
 
 ## 📞 联系方式
 
-- 项目地址: https://github.com/2274168514/js-editor
-- 开发者: 孙光宇 (China University of Petroleum (East China))
+如有问题或建议，请通过 GitHub Issues 联系我们。
+
+---
+
+*© 2025 Web Driver Team. All rights reserved.*
